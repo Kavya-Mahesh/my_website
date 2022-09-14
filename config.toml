@@ -176,7 +176,7 @@ disqusShortname = ""
 
     [[params.contact.phone]]
     title = "Phone"
-    phone = "(+44) 7787955445"
+    phone = "On Request"
 
     [[params.contact.address]]
     title = "Address"
