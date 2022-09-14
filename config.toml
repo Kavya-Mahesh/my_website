@@ -81,8 +81,8 @@ disqusShortname = ""
   [params.banner]
     # To change the background image on the homepage banner, replace 'banner.jpg' in
     # the 'static/img' folder.
-    title = "Hi, I'm Kavya Mahesh"
-    subtitle = "Welcome to my personal portfolio!"
+    title = "Kavya Mahesh"
+    subtitle = "LBS Masters in Analytics and Management"
     buttonText = "Get Started"
 
 
@@ -98,22 +98,22 @@ disqusShortname = ""
       url = "blogs/aliquam"
 
     [[params.tiles.showcase]]
+      title = "CV"
+      subtitle = "A glimpse into my professional experience, education and hobbies"
+      image = "cv.jpg"
+      url = "blogs/KavyaMahesh_CV.pdf"
+
+    [[params.tiles.showcase]]
+      title = "Brexit Analysis"
+      subtitle = "Brief analysis of Brexit data from 2015"
+      image = "brexit.jpg"
+      url = "blogs/Brexit_Analysis.html"
+
+    [[params.tiles.showcase]]
       title = "Interesting Visualizations"
       subtitle = "A few fun visualizations"
       image = "interesting_visualizations.jpg"
       url = "blogs/Interesting-Visualizations.html"
-
-    [[params.tiles.showcase]]
-      title = "Magna"
-      subtitle = "Lorem Etiam Nullam"
-      image = "pic03.jpg"
-      url = "blogs/magna"
-
-    [[params.tiles.showcase]]
-      title = "Ipsum"
-      subtitle = "Nisl Sed Aliquam"
-      image = "pic04.jpg"
-      url = "blogs/ipsum"
 
     [[params.tiles.showcase]]
       title = "Consequat"
