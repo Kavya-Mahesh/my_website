@@ -92,16 +92,16 @@ disqusShortname = ""
     # Display your showcases here.
     
     [[params.tiles.showcase]]
-      title = "About Me"
-      #subtitle = "Ipsum Dolor Sit Amet"
-      image = "chennai_beach.jpg"
-      url = "blogs/aliquam"
-
-    [[params.tiles.showcase]]
       title = "CV"
       subtitle = "A glimpse into my professional experience, education and hobbies"
       image = "cv.jpg"
       url = "blogs/KavyaMahesh_CV.pdf"
+
+    [[params.tiles.showcase]]
+      title = "About Me"
+      #subtitle = "Ipsum Dolor Sit Amet"
+      image = "chennai_beach.jpg"
+      url = "blogs/aliquam"
 
     [[params.tiles.showcase]]
       title = "Brexit Analysis"
