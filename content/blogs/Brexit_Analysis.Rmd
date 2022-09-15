@@ -1,0 +1,234 @@
+---
+title: 'Brexit Analysis'
+#author: "KAVYA MAHESH"
+#date: "`r Sys.Date()`"
+output:
+  html_document:
+    theme: flatly
+    highlight: zenburn
+    toc: yes
+    toc_float: yes
+---
+
+```{r load-libraries, warning=FALSE, message=FALSE, echo=FALSE}
+
+library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
+library(gapminder)  # gapminder dataset
+library(here)
+library(janitor)
+library(performance)
+library(mosaic)
+library(GGally)
+library(car)
+```
+
+Taking a look at the results of the 2016 Brexit vote in the UK.
+
+Reading dataset using read_csv() and looking at an overview using glimpse().
+
+```{r load_brexit_data, warning=FALSE, message=FALSE}
+
+# read data directly off github repo
+brexit_results <- read_csv("https://raw.githubusercontent.com/kostis-christodoulou/am01/master/data/brexit_results.csv")
+
+
+glimpse(brexit_results)
+```
+
+Source: The data comes from [Elliott Morris](https://www.thecrosstab.com/), who cleaned it and made it available through his [DataCamp class on analysing election and polling data in R](https://www.datacamp.com/courses/analyzing-election-and-polling-data-in-r).
+
+### Analysis of Leave Share 
+
+leave_share - the percent of votes cast in favour of Brexit in each constituency of the UK
+
+Plotting a histogram, a density plot, and the empirical cumulative distribution function of the leave % in all constituencies to get a sense of the distribution of values.
+
+```{r brexit_histogram, warning=FALSE, message=FALSE}
+
+# histogram
+ggplot(brexit_results, aes(x = leave_share)) +
+  geom_histogram(binwidth = 2.5) +
+  labs(title = "Brexist Vote Analysis - Distribution of leave share",
+       x = "leave share",
+       y = "Number of Constituencies")
+
+# density plot-- think smoothed histogram
+ggplot(brexit_results, aes(x = leave_share)) +
+  geom_density() +
+  labs(title = "Brexit Vote Analysis - leave share density distribution",
+       x = "leave share",
+       y = "Density")
+
+
+# The empirical cumulative distribution function (ECDF) 
+ggplot(brexit_results, aes(x = leave_share)) +
+  stat_ecdf(geom = "step", pad = FALSE) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Brexit Vote Analysis - leave share ECDF function",
+       x = "leave share",
+       y = "Cumulative Density of Constituencies")   
+
+
+```
+
+### leave share vs born in UK
+
+Analysing correlation between the % of UK born voters in a constituency vs the % of people who voted in favour of Brexit:
+
+One common explanation for the Brexit outcome was fear of immigration and opposition to the EU's more open border policy. We first check the or correlation between the proportion of native born residents (`born_in_uk`) in a constituency and its `leave_share`.
+
+```{r brexit_immigration_correlation}
+
+brexit_results %>% 
+  select(leave_share, born_in_uk) %>% 
+  cor()
+
+```
+
+The correlation is almost 0.5, which shows that the two variables are reasonably positively correlated but not very strongly.
+
+To view the data, we also create a scatterplot between these two variables and add the best fit line.
+
+```{r brexit_immigration_plot}
+
+ggplot(brexit_results, aes(x = born_in_uk, y = leave_share)) +
+  geom_point(alpha=0.3) +
+  
+  # add a smoothing line, and use method="lm" to get the best straight-line
+  geom_smooth(method = "lm") + 
+  
+  # use a white background and frame the plot with a black box
+  theme_bw() +
+  labs(title = "Brexit Vote Analysis - Correlation: leave share vs proportion born in UK",
+       x = "born in UK",
+       y = "leave share") 
+
+```
+
+Running a linear regression model to quantify this correlation:
+
+```{r, lm born_in_uk vs leave_share}
+
+model_uk_leave_share <- lm(leave_share ~ born_in_uk, data= brexit_results)
+msummary(model_uk_leave_share)
+
+```
+
+Taken individually, born_in_uk is a significant variable in predicting the leave share of a constituency and explains about 24% of the variations in leave share.
+
+General Observations:
+
+> Constituencies with higher percentage of people born in the UK seem to show higher support for the exit. While there are few exceptions, places with over 85% UK-born population tend to have leave shares of above 40%, concentrating around 58% and the confidence interval of leave shares decreases with an increase in local residents. A large proportion of constituencies also happen to have high percentage of UK-born residents with possible apprehension towards a more competitive job market, loss of local opportunities to potential immigrants and impact on local lifestyle and culture from migration.
+
+> To be noted however, that we have not taken into account any other contributing factor towards leave_share and this correlation only considers the effect of UK-born resident % in isolation.
+
+### leave share vs political affiliation
+
+Considering the correlation between the political party affiliation of the public and their support/ opposition of Brexit.
+
+Visualization - Collaborated with: Emma Clark, Alice Chen, Yuqiao Leng and Joël Merki (LBS MAM23)
+
+```{r, Political affiliation vs leave share}
+
+# create a list of hex color codes for political parties
+color_list=c("#0087DC","#E4003B","#FFEEAA","#6D3177")
+
+# Renaming political parties and pivotting longer
+brexit_results_longer <- brexit_results %>% 
+  rename("Conservative" = "con_2015",
+         "Labour" = "lab_2015",
+         "Lib Dems" = "ld_2015",
+         "UKIP" = "ukip_2015"
+         ) %>% 
+  pivot_longer(c(2:5), names_to="party", values_to = "seat_percent")
+  
+# Plotting results
+ggplot(brexit_results_longer, 
+  aes(x = seat_percent, y = leave_share, group = party)) +
+  geom_point(aes(color = factor(party))) +
+  geom_smooth(aes(color = factor(party)),method="lm") +
+  scale_color_manual(values = color_list) +
+  theme_bw() +
+  theme(legend.title=element_blank()) +
+  theme(legend.position = "bottom") +
+  labs(title = "How political affiliation translated to Brexit Voting") +
+  xlab("Party % in the UK 2015 general election") +
+  ylab("Leave % in the 2016 Brexit referendum")
+
+```
+
+Running a linear regression model and ggpairs plot to view this correlation:
+
+```{r, lm part affiliation vs leave_share, warning=FALSE, message=FALSE}
+
+model_political <- lm(leave_share ~ con_2015+lab_2015+ld_2015+ukip_2015, 
+                      data= brexit_results)
+msummary(model_political)
+
+ggpairs(brexit_results, columns = c('con_2015','lab_2015','ld_2015','ukip_2015','leave_share'))
+
+```
+
+> At first glance, the strongest correlation can be observed looking at correlation between UKIP party % and leave %. We can infer that the higher the representation of the UK Independence Party in a county, the higher the votes in favor of leaving the EU. At the same, there seems to be a slight negative correlation between the representation of liberal deomcrats in a county and leave share.
+
+> Again, to be noted that this correlation only considers the effect of political party affiliation in isolation.
+
+### Other predictors of leave share
+
+ggpairs to view correlation:
+
+```{r, ggpairs all predictors, warning=FALSE, message=FALSE}
+
+ggpairs(brexit_results, columns = c('con_2015','lab_2015','ld_2015','ukip_2015',
+                                    'born_in_uk','male','unemployed',
+                                    'degree','age_18to24','leave_share'))
+
+
+```
+
+> We notice that degree (education level) and affiliation towards the UK Independent Party both show a high correlation to leave share when taken along with all other predictors.
+
+```{r, leave share vs all predictors, warning=FALSE, message=FALSE}
+
+model_leave_all <- lm(leave_share ~ con_2015 + lab_2015 + ld_2015 + ukip_2015 +
+                        born_in_uk + male + unemployed + degree + age_18to24, 
+                      data= brexit_results)
+msummary(model_leave_all)
+
+vif(model_leave_all)
+
+```
+
+> The VIF of Labour party supporters (lab_2015) is above 10, suggesting multicolleniearity. So we drop that and rerun our model.
+
+```{r, leave share vs all predictors except lab_2015, warning=FALSE, message=FALSE}
+
+model_leave_all2 <- lm(leave_share ~ con_2015 + ld_2015 + ukip_2015 +
+                        born_in_uk + male + unemployed + degree + age_18to24, 
+                      data= brexit_results)
+
+#Calculate VIF
+vif(model_leave_all2)
+
+#Model summary stats
+msummary(model_leave_all2)
+
+```
+
+> Taken along with other predictors, 'born_in_uk' does not seem like a significant variable in predicting leave_share. ld_2015 is insignificant as well so we drop both those to rerun the model.
+
+```{r, leave share vs selected predictors, warning=FALSE, message=FALSE}
+
+model_leave_selected <- lm(leave_share ~ con_2015 + ukip_2015 +
+                        male + unemployed + degree + age_18to24, 
+                      data= brexit_results)
+
+#Calculate VIF
+vif(model_leave_selected)
+
+#Model summary stats
+msummary(model_leave_selected)
+
+```
+
+> The final model has variables/ predictors that are all significant (t \> 2) and an R squared of 91%, indicating that the selected predictors can explain about 91% of the variation in leave share of constituencies.
