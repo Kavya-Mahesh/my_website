@@ -3,7 +3,7 @@ title: 'Brexit Analysis'
 #author: "KAVYA MAHESH"
 #date: "15/09/2022"
 draft: false
-#image: spices.jpg
+image: brexit.jpg
 keywords: ""
 slug: brexit_analysis
 categories:  
