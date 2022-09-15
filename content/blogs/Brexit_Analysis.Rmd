@@ -1,15 +1,12 @@
 ---
-categories:  
-- ""    
-- ""
-date: "2022-09-15"
-description: Brexit Analysis
+title: 'Brexit Analysis'
+#author: "KAVYA MAHESH"
+#date: "15/09/2022"
 draft: false
-image: spices.jpg # save picture in \static\img\blogs. Acceptable formats= jpg, jpeg, or png . Your #iPhone pics wont work
-
+#image: spices.jpg
 keywords: ""
-slug: Brexit_Analysis # slug is the shorthand URL address... no spaces plz
-title: Brexit Vote Analysis
+slug: brexit_analysis
+categories:  
 ---
 
 ```{r load-libraries, warning=FALSE, message=FALSE, echo=FALSE}
@@ -39,7 +36,7 @@ glimpse(brexit_results)
 
 Source: The data comes from [Elliott Morris](https://www.thecrosstab.com/), who cleaned it and made it available through his [DataCamp class on analysing election and polling data in R](https://www.datacamp.com/courses/analyzing-election-and-polling-data-in-r).
 
-### Analysis of Leave Share 
+### Analysis of Leave Share
 
 leave_share - the percent of votes cast in favour of Brexit in each constituency of the UK
 
@@ -73,7 +70,7 @@ ggplot(brexit_results, aes(x = leave_share)) +
 
 ```
 
-### leave share vs born in UK
+### Leave Share vs Born in UK
 
 Analysing correlation between the % of UK born voters in a constituency vs the % of people who voted in favour of Brexit:
 
@@ -91,9 +88,10 @@ The correlation is almost 0.5, which shows that the two variables are reasonably
 
 To view the data, we also create a scatterplot between these two variables and add the best fit line.
 
-```{r brexit_immigration_plot}
+```{r, brexit_immigration_plot}
 
-ggplot(brexit_results, aes(x = born_in_uk, y = leave_share)) +
+brexit_results %>% 
+  ggplot(aes(x = born_in_uk, y = leave_share)) +
   geom_point(alpha=0.3) +
   
   # add a smoothing line, and use method="lm" to get the best straight-line
@@ -124,7 +122,7 @@ General Observations:
 
 > To be noted however, that we have not taken into account any other contributing factor towards leave_share and this correlation only considers the effect of UK-born resident % in isolation.
 
-### leave share vs political affiliation
+### Leave Share vs Political Affiliation
 
 Considering the correlation between the political party affiliation of the public and their support/ opposition of Brexit.
 
