@@ -1,0 +1,328 @@
+---
+title: 'Gapminder Dataset Analysis'
+#author: "KAVYA MAHESH"
+#date: "15/09/2022"
+draft: false
+#image: brexit.jpg
+keywords: ""
+slug: gapminderanalysis
+categories:  
+- ""
+- ""
+---
+
+
+
+<div id="life-expectancy-analysis---gapminder-dataset" class="section level1">
+<h1>Life Expectancy Analysis - ‘gapminder’ dataset</h1>
+<p>The <code>gapminder</code> dataset has data on life expectancy, population, and GDP per capita for 142 countries from 1952 to 2007.</p>
+<p>A glimpse of the variable names, variable types, etc. and a look at the first 20 rows of data:</p>
+<pre class="r"><code>glimpse(gapminder)</code></pre>
+<pre><code>## Rows: 1,704
+## Columns: 6
+## $ country   &lt;fct&gt; &quot;Afghanistan&quot;, &quot;Afghanistan&quot;, &quot;Afghanistan&quot;, &quot;Afghanistan&quot;, …
+## $ continent &lt;fct&gt; Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, …
+## $ year      &lt;int&gt; 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, …
+## $ lifeExp   &lt;dbl&gt; 28.801, 30.332, 31.997, 34.020, 36.088, 38.438, 39.854, 40.8…
+## $ pop       &lt;int&gt; 8425333, 9240934, 10267083, 11537966, 13079460, 14880372, 12…
+## $ gdpPercap &lt;dbl&gt; 779.4453, 820.8530, 853.1007, 836.1971, 739.9811, 786.1134, …</code></pre>
+<pre class="r"><code>head(gapminder, 20) # look at the first 20 rows of the dataframe</code></pre>
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:read data">
+<col><col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">country</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">continent</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">year</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">lifeExp</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">pop</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">gdpPercap</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">Afghanistan</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">Asia</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1952</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">28.8</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">8425333</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">779&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Afghanistan</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Asia</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1957</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">30.3</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">9240934</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">821&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">Afghanistan</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">Asia</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1962</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">32&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">10267083</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">853&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Afghanistan</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Asia</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1967</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">34&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">11537966</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">836&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">Afghanistan</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">Asia</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1972</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">36.1</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">13079460</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">740&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Afghanistan</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Asia</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1977</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">38.4</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">14880372</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">786&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">Afghanistan</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">Asia</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1982</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">39.9</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">12881816</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">978&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Afghanistan</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Asia</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1987</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">40.8</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">13867957</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">852&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">Afghanistan</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">Asia</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1992</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">41.7</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">16317921</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">649&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Afghanistan</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Asia</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1997</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">41.8</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">22227415</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">635&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">Afghanistan</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">Asia</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">2002</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">42.1</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">25268405</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">727&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Afghanistan</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Asia</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">2007</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">43.8</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">31889923</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">975&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">Albania</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">Europe</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1952</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">55.2</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1282697</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.6e+03&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Albania</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Europe</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1957</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">59.3</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1476505</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.94e+03</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">Albania</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">Europe</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1962</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">64.8</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1728137</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">2.31e+03</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Albania</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Europe</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1967</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">66.2</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1984060</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">2.76e+03</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">Albania</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">Europe</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1972</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">67.7</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">2263554</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">3.31e+03</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Albania</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Europe</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1977</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">68.9</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">2509048</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3.53e+03</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">Albania</td><td style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">Europe</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1982</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">70.4</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">2780097</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">3.63e+03</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Albania</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Europe</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1987</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">72&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3075321</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3.74e+03</td></tr>
+</table>
+
+<div id="analysis-of-life-expectancy-over-the-years-for-india-asia." class="section level2">
+<h2>Analysis of life expectancy over the years for India (Asia).</h2>
+<p><img src="india_map.jpg" width="800" /></p>
+<p>Creating the <code>country_data</code> and <code>continent_data</code> by filtering for India and Asia.</p>
+<pre class="r"><code>country_data &lt;- gapminder %&gt;% 
+            filter(country == &quot;India&quot;) # choosing India, where I come from
+
+continent_data &lt;- gapminder %&gt;% 
+            filter(continent == &quot;Asia&quot;)</code></pre>
+<p>Life Expectancy vs year (India):</p>
+<pre class="r"><code>plot1 &lt;- ggplot(data = country_data, mapping = aes(x = year, y = lifeExp))+
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(title = &quot;Life Expectancy over time - India&quot;,
+      x = &quot;Year&quot;,
+      y = &quot;Life Expectancy (yrs)&quot;)
+
+plot1</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/blogs/Gapminder_Data_Analysis_files/figure-html/lifeExp_one_country-1.png" width="672" /></p>
+<p>Plotting Life Expectancy over time for all countries in Asia:</p>
+<pre class="r"><code>ggplot(continent_data, mapping = aes(x = year , y = lifeExp  , colour= country, group = country))+
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  theme_bw() +
+  labs(title = &quot;National Life Expectancies over time - Asia&quot;,
+       x = &quot;Year&quot;,
+       y = &quot;Life Expectancy (yrs)&quot;) +
+  NULL</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/blogs/Gapminder_Data_Analysis_files/figure-html/lifeExp_one_continent-1.png" width="672" /></p>
+<p>Plotting Life Expectancy over time for all continents.</p>
+<pre class="r"><code>ggplot(data = gapminder , mapping = aes(x = year , y = lifeExp , colour= continent))+
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  facet_wrap(~continent) +
+  theme(legend.position=&quot;none&quot;) +
+  labs(title = &quot;Life Expectancy per Continent over time&quot;,
+       x = &quot;Year&quot;,
+       y = &quot;Life Expectancy (yrs)&quot;) + 
+  NULL</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/blogs/Gapminder_Data_Analysis_files/figure-html/lifeExp_facet_by_continent-1.png" width="672" /></p>
+<p>General Observations</p>
+<blockquote>
+<p>While the overall life expectancy has increased over time, the extent and rate vary across continents. Higher income developed continents like Europe and Oceania had a comparatively much higher average life expectancy to start with in the 1950s and saw lesser overall growth in the last 70 years. Asia shows the largest jump in average life expectancy across countries, with a few noticeable outliers as in the case of Afghanistan which have seen very less growth possibly a result of their lower income and war. Africa has by far the lowest life expectancy and has seen minimal increase over the years, likely a result of their economic status, poor access to healthcare and infrastructure and social unrest. Interestingly, Africa’s average life expectancy today is lower than that of Europe and Oceania in the 1950s!</p>
+</blockquote>
+<p>Looking at the countries with highest and lowest life expectencies</p>
+<pre class="r"><code>library(gganimate)
+library(patchwork)
+
+default_palette = scales::hue_pal()(5)
+names(default_palette) &lt;- unique(gapminder$continent)
+
+top_20_plot_lifeexp &lt;- gapminder %&gt;% 
+  filter(year == 2007) %&gt;% 
+  select(year, continent, country, lifeExp) %&gt;% 
+  slice_max(order_by = lifeExp,n=20) %&gt;% 
+  ggplot(aes(x=lifeExp, y=fct_reorder(country, lifeExp), fill=continent)) +
+  geom_col() +
+  theme_bw() +
+  scale_fill_manual(values = default_palette) +
+  theme(legend.position=&quot;none&quot;) +
+  labs(title = &quot;Highest 20&quot;,
+       x=&quot;&quot;,
+       y=&quot;&quot;)
+
+bottom_20_plot_lifeexp &lt;- gapminder %&gt;% 
+  filter(year == 2007) %&gt;% 
+  select(continent, country, lifeExp) %&gt;% 
+  slice_min(order_by = lifeExp,n=20) %&gt;% 
+  ggplot(aes(x=lifeExp, y=fct_reorder(country, lifeExp), 
+             fill=continent)) +
+  geom_col() +
+  theme_bw() +
+  scale_fill_manual(values = default_palette) +
+  labs(title = &quot;Lowest 20&quot;,
+       x=&quot;&quot;,
+       y=&quot;&quot;)
+
+combined_plot_lifeexp &lt;- top_20_plot_lifeexp + bottom_20_plot_lifeexp + 
+  plot_annotation(title = &quot;Countries with Highest and Lowest life expectancies in 2007&quot;)
+
+combined_plot_lifeexp</code></pre>
+<p><img src="/blogs/Gapminder_Data_Analysis_files/figure-html/top%20and%20bottom%2020%20life%20Exp%20countries-1.png" width="672" /></p>
+</div>
+<div id="predicting-life-expectancy" class="section level2">
+<h2>Predicting Life Expectancy</h2>
+<p>Analysing the effect of time, taken alone on LifeExp</p>
+<pre class="r"><code>model1 &lt;- lm(lifeExp ~ year, 
+                      data= gapminder)
+msummary(model1)</code></pre>
+<pre><code>##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -585.65219   32.31396  -18.12   &lt;2e-16 ***
+## year           0.32590    0.01632   19.96   &lt;2e-16 ***
+## 
+## Residual standard error: 11.63 on 1702 degrees of freedom
+## Multiple R-squared:  0.1898, Adjusted R-squared:  0.1893 
+## F-statistic: 398.6 on 1 and 1702 DF,  p-value: &lt; 2.2e-16</code></pre>
+<blockquote>
+<p>This does not capture individual trends in different continents, given that heir starting points in 1952 were different and so are the rates of increase.</p>
+</blockquote>
+<p>Analysing the effect of multiple predictors on LifeExp</p>
+<pre class="r"><code>yearMin &lt;- min(gapminder$year)
+
+#Adjusting for year (starting from 1952 as baseline)
+model2 &lt;- lm(lifeExp ~ continent + I(year - yearMin) + pop, 
+                      data= gapminder)
+msummary(model2)</code></pre>
+<pre><code>##                     Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)        3.990e+01  4.070e-01  98.037   &lt;2e-16 ***
+## continentAmericas  1.580e+01  5.148e-01  30.684   &lt;2e-16 ***
+## continentAsia      1.121e+01  4.843e-01  23.143   &lt;2e-16 ***
+## continentEurope    2.304e+01  4.845e-01  47.551   &lt;2e-16 ***
+## continentOceania   2.546e+01  1.522e+00  16.725   &lt;2e-16 ***
+## I(year - yearMin)  3.260e-01  1.031e-02  31.622   &lt;2e-16 ***
+## pop               -1.407e-10  1.732e-09  -0.081    0.935    
+## 
+## Residual standard error: 7.318 on 1697 degrees of freedom
+## Multiple R-squared:  0.6801, Adjusted R-squared:  0.679 
+## F-statistic: 601.4 on 6 and 1697 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Dropping population as it is an insignificant variable.</p>
+<pre class="r"><code>model3 &lt;- lm(lifeExp ~ continent + I(year - yearMin), 
+                      data= gapminder)
+msummary(model3)</code></pre>
+<pre><code>##                   Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)       39.90297    0.40684   98.08   &lt;2e-16 ***
+## continentAmericas 15.79341    0.51400   30.73   &lt;2e-16 ***
+## continentAsia     11.19957    0.47005   23.83   &lt;2e-16 ***
+## continentEurope   23.03836    0.48421   47.58   &lt;2e-16 ***
+## continentOceania  25.46088    1.52184   16.73   &lt;2e-16 ***
+## I(year - yearMin)  0.32590    0.01027   31.74   &lt;2e-16 ***
+## 
+## Residual standard error: 7.316 on 1698 degrees of freedom
+## Multiple R-squared:  0.6801, Adjusted R-squared:  0.6792 
+## F-statistic: 722.1 on 5 and 1698 DF,  p-value: &lt; 2.2e-16</code></pre>
+<blockquote>
+<p>All predictors in this model are significant and impact the life expectancy. Here for instance, the life expectancy of Africa in 1952 can be estimated as 39.9 years and the life expectancy in Asia in 2002 would be estimated as 56.2 years. The model explains about 67.9% of the change in Life Expectancy (Adjusted R squared).</p>
+</blockquote>
+</div>
+</div>
+<div id="analysis-of-gdp-per-capita" class="section level1">
+<h1>Analysis of GDP Per Capita</h1>
+<p>GDP Percap vs year (India):</p>
+<pre class="r"><code>plot2 &lt;- ggplot(data = country_data, mapping = aes(x = year, y = gdpPercap))+
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(title = &quot;GDP Percap over time - India&quot;,
+      x = &quot;Year&quot;,
+      y = &quot;GDP Percap&quot;)
+
+plot2</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/blogs/Gapminder_Data_Analysis_files/figure-html/gdpPerCap_one_country-1.png" width="672" /></p>
+<p>Plotting GDP Per Capita over time for all countries in Asia:</p>
+<pre class="r"><code>ggplot(continent_data, mapping = aes(x = year , y = gdpPercap  , colour= country, group = country))+
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  theme_bw() +
+  labs(title = &quot;GDP Per Cap over time - Asia&quot;,
+       x = &quot;Year&quot;,
+       y = &quot;GDP Percap&quot;) +
+  NULL</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/blogs/Gapminder_Data_Analysis_files/figure-html/gdpPercap_one_continent-1.png" width="672" /></p>
+<p>Plotting GDP Percap over time for all continents.</p>
+<pre class="r"><code>ggplot(data = gapminder , mapping = aes(x = year , y = gdpPercap , colour= continent))+
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  facet_wrap(~continent) +
+  theme(legend.position=&quot;none&quot;) +
+  labs(title = &quot;GDP Percap per Continent over time&quot;,
+       x = &quot;Year&quot;,
+       y = &quot;GDP Percap&quot;) + 
+  NULL</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/blogs/Gapminder_Data_Analysis_files/figure-html/gdpPercap_facet_by_continent-1.png" width="672" /></p>
+<blockquote>
+<p>The average GDP percap for Africa has remained almost constant over the observed 5 decades, while a slight increase can be seen in Americas as well as Asia. The increase in the Americas is largely influenced by the USA and Canada’s rapid growth. Asia displays a few outliers in the initial 3 decades (Kuwait) and a few fast developing nations like Hong Kong, Saudi, Singapore, Japan etc whose GDP Percap has steadily increased till 2007. Europe and Oceania both show a more steady increase over the years with fewer outliers. The Americas, Europe and Asia also display a large gap between the counties with the highest and lowest GDP per cap, indicating a disproportionate development of certain countries over time than others.</p>
+</blockquote>
+<pre class="r"><code>library(gganimate)
+library(patchwork)
+
+default_palette = scales::hue_pal()(5)
+names(default_palette) &lt;- unique(gapminder$continent)
+
+top_20_plot &lt;- gapminder %&gt;% 
+  filter(year == 2007) %&gt;% 
+  select(year, continent, country, gdpPercap) %&gt;% 
+  #arrange(year, desc(gdpPercap)) %&gt;% 
+  slice_max(order_by = gdpPercap,n=20) %&gt;% 
+  ggplot(aes(x=gdpPercap, y=fct_reorder(country, gdpPercap), fill=continent)) +
+  geom_col() +
+  theme_bw() +
+  scale_fill_manual(values = default_palette) +
+  theme(legend.position=&quot;none&quot;) +
+  labs(title = &quot;Highest 20&quot;,
+       x=&quot;&quot;,
+       y=&quot;&quot;)
+
+bottom_20_plot &lt;- gapminder %&gt;% 
+  filter(year == 2007) %&gt;% 
+  select(continent, country, gdpPercap) %&gt;% 
+  slice_min(order_by = gdpPercap,n=20) %&gt;% 
+  ggplot(aes(x=gdpPercap, y=fct_reorder(country, gdpPercap), 
+             fill=continent)) +
+  geom_col() +
+  theme_bw() +
+  scale_fill_manual(values = default_palette) +
+  labs(title = &quot;Lowest 20&quot;,
+       x=&quot;&quot;,
+       y=&quot;&quot;)
+
+combined_plot &lt;- top_20_plot + bottom_20_plot + 
+  plot_annotation(title = &quot;Countries with Highest and Lowest GDP Percap in 2007&quot;)
+
+combined_plot</code></pre>
+<p><img src="/blogs/Gapminder_Data_Analysis_files/figure-html/top%20and%20bottom%2020%20GDP%20per%20cap%20countries-1.png" width="672" /></p>
+<blockquote>
+<p>This plot better displays the disproportionate difference between the developed countries in Europe (and Asia/ the Americas) and the countries in Africa. 17 out of the top 20 countries are in Europe/ Asia while 90% of the bottom 20 are African countries whose socioeconomic situation has been affected by unrest and a lack of access to resources and capital. This was also evident from the earlier plot of life expectancy in the top and bottom 20 countries and their distribution.</p>
+</blockquote>
+<div id="prediction-of-gdppercap" class="section level3">
+<h3>Prediction of gdpPercap:</h3>
+<p>Analysing the effect of time, taken alone on GDP Percap</p>
+<pre class="r"><code>model4 &lt;- lm(gdpPercap ~ I(year - yearMin), 
+                      data= gapminder)
+msummary(model4)</code></pre>
+<pre><code>##                   Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)        3646.24     437.57   8.333   &lt;2e-16 ***
+## I(year - yearMin)   129.78      13.48   9.630   &lt;2e-16 ***
+## 
+## Residual standard error: 9602 on 1702 degrees of freedom
+## Multiple R-squared:  0.05167,    Adjusted R-squared:  0.05112 
+## F-statistic: 92.74 on 1 and 1702 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>model5 &lt;- lm(gdpPercap ~ continent + I(year - yearMin), 
+                      data= gapminder)
+msummary(model5)</code></pre>
+<pre><code>##                   Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)       -1375.33     465.40  -2.955  0.00317 ** 
+## continentAmericas  4942.36     588.00   8.405  &lt; 2e-16 ***
+## continentAsia      5708.40     537.72  10.616  &lt; 2e-16 ***
+## continentEurope   12275.72     553.92  22.162  &lt; 2e-16 ***
+## continentOceania  16427.85    1740.93   9.436  &lt; 2e-16 ***
+## I(year - yearMin)   129.78      11.75  11.049  &lt; 2e-16 ***
+## 
+## Residual standard error: 8369 on 1698 degrees of freedom
+## Multiple R-squared:  0.2813, Adjusted R-squared:  0.2791 
+## F-statistic: 132.9 on 5 and 1698 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>car::vif(model5)</code></pre>
+<pre><code>##                   GVIF Df GVIF^(1/(2*Df))
+## continent            1  4               1
+## I(year - yearMin)    1  1               1</code></pre>
+</div>
+</div>

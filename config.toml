@@ -105,9 +105,21 @@ disqusShortname = ""
 
     [[params.tiles.showcase]]
       title = "Brexit Analysis"
-      subtitle = "Brief analysis of Brexit data from 2015"
+      subtitle = "Brief analysis of Brexit data from 2016"
       image = "brexit.jpg"
       url = "blogs/brexit"
+
+    [[params.tiles.showcase]]
+      title = "Gender Pay Gap Analysis"
+      subtitle = "Inspecting influences on pay gap in Bank slaries"
+      image = "pay_gap.jpg"
+      url = "blogs/salaries"
+
+    [[params.tiles.showcase]]
+      title = "Gapminder Dataset Analysis"
+      subtitle = "Brief analysis of Life Expectancy and GDP Percap"
+      image = "world_map.jpg"
+      url = "blogs/gapminderanalysis"
 
     [[params.tiles.showcase]]
       title = "Interesting Visualizations"
@@ -115,17 +127,6 @@ disqusShortname = ""
       image = "interesting_visualizations.jpg"
       url = "blogs/test.html"
 
-    [[params.tiles.showcase]]
-      title = "Consequat"
-      subtitle = "Ipsum Dolor Sit Amet"
-      image = "pic05.jpg"
-      url = "blogs/ipsum"
-
-    [[params.tiles.showcase]]
-      title = "Etiam"
-      subtitle = "Feugiat Amet Tempus"
-      image = "pic06.jpg"
-      url = "blogs/ipsum"
     # You can make more showcases by copy and pasting the code above
 
   [params.blog]

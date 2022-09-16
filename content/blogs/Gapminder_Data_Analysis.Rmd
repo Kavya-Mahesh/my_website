@@ -1,0 +1,298 @@
+---
+title: 'Gapminder Dataset Analysis'
+#author: "KAVYA MAHESH"
+#date: "15/09/2022"
+draft: false
+#image: brexit.jpg
+keywords: ""
+slug: gapminderanalysis
+categories:  
+- ""
+- ""
+---
+
+```{r load-libraries, warning=FALSE, message=FALSE, echo=FALSE}
+
+library(janitor)
+library(gapminder)
+library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
+library(mosaic)
+library(GGally)
+library(here)
+library(skimr)
+library(janitor)
+library(broom)
+library(huxtable)
+library(lubridate)
+library(car)
+library(performance)
+library(ggfortify)
+```
+
+# Life Expectancy Analysis - 'gapminder' dataset
+
+The `gapminder` dataset has data on life expectancy, population, and GDP per capita for 142 countries from 1952 to 2007.
+
+A glimpse of the variable names, variable types, etc. and a look at the first 20 rows of data:
+
+```{r read data}
+
+glimpse(gapminder)
+
+head(gapminder, 20) # look at the first 20 rows of the dataframe
+
+```
+
+## Analysis of life expectancy over the years for India (Asia).
+
+![](india_map.jpg){width="800px"}
+
+Creating the `country_data` and `continent_data` by filtering for India and Asia.
+
+```{r, country and continent data}
+country_data <- gapminder %>% 
+            filter(country == "India") # choosing India, where I come from
+
+continent_data <- gapminder %>% 
+            filter(continent == "Asia")
+```
+
+Life Expectancy vs year (India):
+
+```{r, lifeExp_one_country}
+
+plot1 <- ggplot(data = country_data, mapping = aes(x = year, y = lifeExp))+
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(title = "Life Expectancy over time - India",
+      x = "Year",
+      y = "Life Expectancy (yrs)")
+
+plot1
+```
+
+Plotting Life Expectancy over time for all countries in Asia:
+
+```{r lifeExp_one_continent}
+
+ggplot(continent_data, mapping = aes(x = year , y = lifeExp  , colour= country, group = country))+
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  theme_bw() +
+  labs(title = "National Life Expectancies over time - Asia",
+       x = "Year",
+       y = "Life Expectancy (yrs)") +
+  NULL
+```
+
+Plotting Life Expectancy over time for all continents.
+
+```{r lifeExp_facet_by_continent}
+
+ggplot(data = gapminder , mapping = aes(x = year , y = lifeExp , colour= continent))+
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  facet_wrap(~continent) +
+  theme(legend.position="none") +
+  labs(title = "Life Expectancy per Continent over time",
+       x = "Year",
+       y = "Life Expectancy (yrs)") + 
+  NULL
+```
+
+General Observations
+
+> While the overall life expectancy has increased over time, the extent and rate vary across continents. Higher income developed continents like Europe and Oceania had a comparatively much higher average life expectancy to start with in the 1950s and saw lesser overall growth in the last 70 years. Asia shows the largest jump in average life expectancy across countries, with a few noticeable outliers as in the case of Afghanistan which have seen very less growth possibly a result of their lower income and war. Africa has by far the lowest life expectancy and has seen minimal increase over the years, likely a result of their economic status, poor access to healthcare and infrastructure and social unrest. Interestingly, Africa's average life expectancy today is lower than that of Europe and Oceania in the 1950s!
+
+Looking at the countries with highest and lowest life expectencies
+
+```{r top and bottom 20 life Exp countries}
+library(gganimate)
+library(patchwork)
+
+default_palette = scales::hue_pal()(5)
+names(default_palette) <- unique(gapminder$continent)
+
+top_20_plot_lifeexp <- gapminder %>% 
+  filter(year == 2007) %>% 
+  select(year, continent, country, lifeExp) %>% 
+  slice_max(order_by = lifeExp,n=20) %>% 
+  ggplot(aes(x=lifeExp, y=fct_reorder(country, lifeExp), fill=continent)) +
+  geom_col() +
+  theme_bw() +
+  scale_fill_manual(values = default_palette) +
+  theme(legend.position="none") +
+  labs(title = "Highest 20",
+       x="",
+       y="")
+
+bottom_20_plot_lifeexp <- gapminder %>% 
+  filter(year == 2007) %>% 
+  select(continent, country, lifeExp) %>% 
+  slice_min(order_by = lifeExp,n=20) %>% 
+  ggplot(aes(x=lifeExp, y=fct_reorder(country, lifeExp), 
+             fill=continent)) +
+  geom_col() +
+  theme_bw() +
+  scale_fill_manual(values = default_palette) +
+  labs(title = "Lowest 20",
+       x="",
+       y="")
+
+combined_plot_lifeexp <- top_20_plot_lifeexp + bottom_20_plot_lifeexp + 
+  plot_annotation(title = "Countries with Highest and Lowest life expectancies in 2007")
+
+combined_plot_lifeexp
+```
+
+## Predicting Life Expectancy
+
+Analysing the effect of time, taken alone on LifeExp
+
+```{r lifeExp Prediction}
+
+model1 <- lm(lifeExp ~ year, 
+                      data= gapminder)
+msummary(model1)
+
+```
+
+> This does not capture individual trends in different continents, given that heir starting points in 1952 were different and so are the rates of increase.
+
+Analysing the effect of multiple predictors on LifeExp
+
+```{r lifeExp Prediction multiple variables}
+
+yearMin <- min(gapminder$year)
+
+#Adjusting for year (starting from 1952 as baseline)
+model2 <- lm(lifeExp ~ continent + I(year - yearMin) + pop, 
+                      data= gapminder)
+msummary(model2)
+
+
+```
+
+Dropping population as it is an insignificant variable.
+
+```{r lifeExp Prediction different variables}
+
+model3 <- lm(lifeExp ~ continent + I(year - yearMin), 
+                      data= gapminder)
+msummary(model3)
+
+```
+
+> All predictors in this model are significant and impact the life expectancy. Here for instance, the life expectancy of Africa in 1952 can be estimated as 39.9 years and the life expectancy in Asia in 2002 would be estimated as 56.2 years. The model explains about 67.9% of the change in Life Expectancy (Adjusted R squared).
+
+# Analysis of GDP Per Capita
+
+GDP Percap vs year (India):
+
+```{r, gdpPerCap_one_country}
+
+plot2 <- ggplot(data = country_data, mapping = aes(x = year, y = gdpPercap))+
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(title = "GDP Percap over time - India",
+      x = "Year",
+      y = "GDP Percap")
+
+plot2
+```
+
+Plotting GDP Per Capita over time for all countries in Asia:
+
+```{r gdpPercap_one_continent}
+
+ggplot(continent_data, mapping = aes(x = year , y = gdpPercap  , colour= country, group = country))+
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  theme_bw() +
+  labs(title = "GDP Per Cap over time - Asia",
+       x = "Year",
+       y = "GDP Percap") +
+  NULL
+```
+
+Plotting GDP Percap over time for all continents.
+
+```{r gdpPercap_facet_by_continent}
+
+ggplot(data = gapminder , mapping = aes(x = year , y = gdpPercap , colour= continent))+
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  facet_wrap(~continent) +
+  theme(legend.position="none") +
+  labs(title = "GDP Percap per Continent over time",
+       x = "Year",
+       y = "GDP Percap") + 
+  NULL
+```
+
+> The average GDP percap for Africa has remained almost constant over the observed 5 decades, while a slight increase can be seen in Americas as well as Asia. The increase in the Americas is largely influenced by the USA and Canada's rapid growth. Asia displays a few outliers in the initial 3 decades (Kuwait) and a few fast developing nations like Hong Kong, Saudi, Singapore, Japan etc whose GDP Percap has steadily increased till 2007. Europe and Oceania both show a more steady increase over the years with fewer outliers. The Americas, Europe and Asia also display a large gap between the counties with the highest and lowest GDP per cap, indicating a disproportionate development of certain countries over time than others.
+
+```{r top and bottom 20 GDP per cap countries}
+
+library(gganimate)
+library(patchwork)
+
+default_palette = scales::hue_pal()(5)
+names(default_palette) <- unique(gapminder$continent)
+
+top_20_plot <- gapminder %>% 
+  filter(year == 2007) %>% 
+  select(year, continent, country, gdpPercap) %>% 
+  #arrange(year, desc(gdpPercap)) %>% 
+  slice_max(order_by = gdpPercap,n=20) %>% 
+  ggplot(aes(x=gdpPercap, y=fct_reorder(country, gdpPercap), fill=continent)) +
+  geom_col() +
+  theme_bw() +
+  scale_fill_manual(values = default_palette) +
+  theme(legend.position="none") +
+  labs(title = "Highest 20",
+       x="",
+       y="")
+
+bottom_20_plot <- gapminder %>% 
+  filter(year == 2007) %>% 
+  select(continent, country, gdpPercap) %>% 
+  slice_min(order_by = gdpPercap,n=20) %>% 
+  ggplot(aes(x=gdpPercap, y=fct_reorder(country, gdpPercap), 
+             fill=continent)) +
+  geom_col() +
+  theme_bw() +
+  scale_fill_manual(values = default_palette) +
+  labs(title = "Lowest 20",
+       x="",
+       y="")
+
+combined_plot <- top_20_plot + bottom_20_plot + 
+  plot_annotation(title = "Countries with Highest and Lowest GDP Percap in 2007")
+
+combined_plot
+```
+
+> This plot better displays the disproportionate difference between the developed countries in Europe (and Asia/ the Americas) and the countries in Africa. 17 out of the top 20 countries are in Europe/ Asia while 90% of the bottom 20 are African countries whose socioeconomic situation has been affected by unrest and a lack of access to resources and capital. This was also evident from the earlier plot of life expectancy in the top and bottom 20 countries and their distribution.
+
+### Prediction of gdpPercap:
+
+Analysing the effect of time, taken alone on GDP Percap
+
+```{r gdpPercap Prediction}
+
+model4 <- lm(gdpPercap ~ I(year - yearMin), 
+                      data= gapminder)
+msummary(model4)
+
+
+```
+
+```{r gdpPercap Prediction based on more variables}
+
+model5 <- lm(gdpPercap ~ continent + I(year - yearMin), 
+                      data= gapminder)
+msummary(model5)
+
+car::vif(model5)
+```
