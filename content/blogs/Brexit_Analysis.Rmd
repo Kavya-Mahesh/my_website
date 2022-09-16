@@ -3,10 +3,12 @@ title: 'Brexit Analysis'
 #author: "KAVYA MAHESH"
 #date: "15/09/2022"
 draft: false
-image: brexit.jpg
+#image: brexit.jpg
 keywords: ""
-slug: brexit_analysis
+slug: brexit
 categories:  
+- ""
+- ""
 ---
 
 ```{r load-libraries, warning=FALSE, message=FALSE, echo=FALSE}

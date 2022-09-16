@@ -107,7 +107,7 @@ disqusShortname = ""
       title = "Brexit Analysis"
       subtitle = "Brief analysis of Brexit data from 2015"
       image = "brexit.jpg"
-      url = "blogs/brexit_analysis"
+      url = "blogs/brexit"
 
     [[params.tiles.showcase]]
       title = "Interesting Visualizations"
