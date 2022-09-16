@@ -120,42 +120,6 @@ plot1</code></pre>
 <p>While the overall life expectancy has increased over time, the extent and rate vary across continents. Higher income developed continents like Europe and Oceania had a comparatively much higher average life expectancy to start with in the 1950s and saw lesser overall growth in the last 70 years. Asia shows the largest jump in average life expectancy across countries, with a few noticeable outliers as in the case of Afghanistan which have seen very less growth possibly a result of their lower income and war. Africa has by far the lowest life expectancy and has seen minimal increase over the years, likely a result of their economic status, poor access to healthcare and infrastructure and social unrest. Interestingly, Africa’s average life expectancy today is lower than that of Europe and Oceania in the 1950s!</p>
 </blockquote>
 <p>Looking at the countries with highest and lowest life expectencies</p>
-<pre class="r"><code>library(gganimate)
-library(patchwork)
-
-default_palette = scales::hue_pal()(5)
-names(default_palette) &lt;- unique(gapminder$continent)
-
-top_20_plot_lifeexp &lt;- gapminder %&gt;% 
-  filter(year == 2007) %&gt;% 
-  select(year, continent, country, lifeExp) %&gt;% 
-  slice_max(order_by = lifeExp,n=20) %&gt;% 
-  ggplot(aes(x=lifeExp, y=fct_reorder(country, lifeExp), fill=continent)) +
-  geom_col() +
-  theme_bw() +
-  scale_fill_manual(values = default_palette) +
-  theme(legend.position=&quot;none&quot;) +
-  labs(title = &quot;Highest 20&quot;,
-       x=&quot;&quot;,
-       y=&quot;&quot;)
-
-bottom_20_plot_lifeexp &lt;- gapminder %&gt;% 
-  filter(year == 2007) %&gt;% 
-  select(continent, country, lifeExp) %&gt;% 
-  slice_min(order_by = lifeExp,n=20) %&gt;% 
-  ggplot(aes(x=lifeExp, y=fct_reorder(country, lifeExp), 
-             fill=continent)) +
-  geom_col() +
-  theme_bw() +
-  scale_fill_manual(values = default_palette) +
-  labs(title = &quot;Lowest 20&quot;,
-       x=&quot;&quot;,
-       y=&quot;&quot;)
-
-combined_plot_lifeexp &lt;- top_20_plot_lifeexp + bottom_20_plot_lifeexp + 
-  plot_annotation(title = &quot;Countries with Highest and Lowest life expectancies in 2007&quot;)
-
-combined_plot_lifeexp</code></pre>
 <p><img src="/blogs/Gapminder_Data_Analysis_files/figure-html/top%20and%20bottom%2020%20life%20Exp%20countries-1.png" width="672" /></p>
 </div>
 <div id="predicting-life-expectancy" class="section level2">

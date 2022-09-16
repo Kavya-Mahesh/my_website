@@ -106,7 +106,8 @@ General Observations
 
 Looking at the countries with highest and lowest life expectencies
 
-```{r top and bottom 20 life Exp countries}
+```{r top and bottom 20 life Exp countries, warning=FALSE, message=FALSE, echo=FALSE}
+
 library(gganimate)
 library(patchwork)
 

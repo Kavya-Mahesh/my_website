@@ -11,7 +11,7 @@ categories:
 - ""
 ---
 
-```{r import libraries}
+```{r import libraries, warning=FALSE, message=FALSE, echo=FALSE}
 library(mosaic)
 library(tidyverse)
 library(here)
