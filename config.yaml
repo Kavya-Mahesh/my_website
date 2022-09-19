@@ -87,7 +87,7 @@ params:
       - image: chennai_beach.jpg
         subtitle: A glimpse into my background
         title: About Me
-        url: blogs/aboutme
+        url: aboutme
       - image: brexit.jpg
         subtitle: Brief analysis of Brexit data
         title: Brexit Analysis
