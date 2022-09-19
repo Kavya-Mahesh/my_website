@@ -3,6 +3,7 @@ title: 'Brexit Analysis'
 #author: "KAVYA MAHESH"
 #date: "15/09/2022"
 draft: false
+description: Brief Analysis of the Brexit results from 2016
 image: brexit.jpg
 keywords: ""
 slug: brexit

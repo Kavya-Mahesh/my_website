@@ -4,6 +4,7 @@ title: 'Gapminder Dataset Analysis'
 #date: "15/09/2022"
 draft: false
 image: world_map.jpg
+description: Analysis of Life Expectany and GDP Percap evolution over the years across countries/ continents
 keywords: ""
 slug: gapminderanalysis
 categories:  

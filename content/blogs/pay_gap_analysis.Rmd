@@ -4,6 +4,7 @@ title: 'Gender Pay Gap Analysis'
 #date: "15/09/2022"
 draft: false
 image: pay_gap.jpg
+description: Looking into the gap in salaries by gender to examine contributing factors
 keywords: ""
 slug: salaries
 categories:  
