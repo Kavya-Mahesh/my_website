@@ -1,0 +1,22 @@
+---
+title: 'About Me'
+#author: "KAVYA MAHESH"
+#date: "15/09/2022"
+draft: false
+image: me_trek.jpg
+keywords: ""
+slug: aboutme
+categories: 
+- ""
+- ""
+---
+
+Hey, I'm Kavya Mahesh from India.
+
+I was born and raised in Chennai, a city in south India, and would pick filter coffee over a cappuccino any day! :)
+
+I discovered my passion for the data space through internships at analytics start-ups, during my under graduation in Engineering at the National Institute of Technology, Trichy. Upon graduation in 2020, I joined **Fidelity Investments** as a *data engineer* in their Business Metrics Data Lake squad. My role involved building dynamic ETL pipelines for data migration and curation of a cloud-based centralised data repository for Competitive Insights and analytics. I joined the *Masters in Analytics and Management* program at **London Business School** to help bridge the gap between data and business and wish to pursue a career at the intersection of the two.
+
+On the personal front, I love *travelling* and *photography*. I'm generally an outdoor person and usually up for a trek or hike. I absolutely *love animals* and I'm a huge dog-person. I enjoy reading and wish I could say that the wizarding world and Cornish coast had nothing to do with my choice of joining LBS :D
+
+

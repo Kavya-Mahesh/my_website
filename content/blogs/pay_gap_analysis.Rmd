@@ -19,12 +19,15 @@ library(skimr)
 library(huxtable)
 ```
 
+Reading salary data
+
 ```{r read data}
 
 bank_salaries <-read.csv("bank_salaries.csv")
+
+#Glimpse of the data:
 skim(bank_salaries)
 
-head(bank_salaries, n=10)
 ```
 
 ## Effect of gender on salary
@@ -32,7 +35,7 @@ head(bank_salaries, n=10)
 ```{r, Diff in means}
 
 #Looking at mean salaries by gender with confidence intervals
-bank_salaries %>% 
+gender_mean_salaries <- bank_salaries %>% 
   group_by(gender) %>% 
   summarise(
             mean = mean(salary),
@@ -45,6 +48,7 @@ bank_salaries %>%
             CI_high  = mean + margin_of_error
             )
 
+gender_mean_salaries
 ```
 
 Since the two intervals do not overlap, it is clear that there is a significant difference in female and male salaries. We now look at contributing factors.
@@ -129,6 +133,7 @@ huxreg(model1, model2, model3, model4, model5, model6,
 ### Distribution of gender at each job grade level
 
 ```{r gender at job grades}
+
 bank_salaries %>% 
   group_by(gender, job_grade) %>% 
   count() %>% 
@@ -145,4 +150,4 @@ bank_salaries %>%
 
 ```
 
->Most woemn are concentrated at lower job grades while the percentage of men clearly exceeds women at higher levels. Possible reasons include women being overlooked for leadership roles and bias against women of certain age groups especially mid-career.
+>Most women are concentrated at lower job grades while the percentage of men clearly exceeds women at higher levels. Possible reasons include women being overlooked for leadership roles and bias against women of certain age groups especially mid-career.
