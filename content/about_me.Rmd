@@ -4,7 +4,7 @@ title: 'About Me'
 #date: "15/09/2022"
 description: A little glimpse into myself and my background
 draft: false
-image: blogs/me_trek.jpg
+image: me_trek.jpg
 keywords: ""
 slug: aboutme
 categories: 
