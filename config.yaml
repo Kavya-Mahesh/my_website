@@ -68,12 +68,12 @@ params:
     links:
       - name: Home
         url: '#'
-      - name: Blogs
+      - name: About Me
+        url: blogs/aboutme
+      - name: Projects
         url: blogs
-      - name: Generic Blog
-        url: blogs/ipsum
-      - name: Elements
-        url: elements.html
+#      - name: Elements
+#        url: elements.html
     menu: Menu
 #    subtitle: By HTML5 Up
     title: Portfolio Website
