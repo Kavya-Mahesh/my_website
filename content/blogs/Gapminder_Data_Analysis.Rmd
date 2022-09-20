@@ -46,7 +46,11 @@ head(gapminder, 20) # look at the first 20 rows of the dataframe
 
 ## Analysis of life expectancy over the years for India (Asia).
 
-![](india_map.jpg){width="800px"}
+```{r add image, echo=FALSE}
+
+knitr::include_graphics("/img/india_map.jpg",error=FALSE)
+
+```
 
 Creating the `country_data` and `continent_data` by filtering for India and Asia.
 
