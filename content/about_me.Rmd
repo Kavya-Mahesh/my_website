@@ -21,7 +21,7 @@ I discovered my passion for the data space through internships at analytics star
 On the personal front, I love *travelling* and *photography*. I'm generally an outdoor person and usually up for a trek or hike. I absolutely *love animals* and I'm a huge dog-person. I enjoy reading and wish I could say that the wizarding world and Cornish coast had nothing to do with my choice of joining LBS :D
 
 
-```{r add image, echo = FALSE}
+```{r add image, out.width = "300px", echo = FALSE}
 
 library(knitr)
 knitr::include_graphics("/img/Benji.jpg",error=FALSE)
