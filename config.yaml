@@ -69,7 +69,7 @@ params:
       - name: Home
         url: '#'
       - name: About Me
-        url: content/aboutme
+        url: aboutme
       - name: Projects
         url: blogs
 #      - name: Elements
